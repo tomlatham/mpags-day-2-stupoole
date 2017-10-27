@@ -13,7 +13,7 @@ and change directory into that holding this README. Then run:
 ```
 $ ls
 LICENSE          README.md        mpags-cipher.cpp
-$ g++ -Wall -Wextra -Werror -Wfatal-errors -pedantic -Wshadow mpags-cipher.cpp -o mpags-cipher
+$ g++ -std=c++11 -Wall -Wextra -Werror -Wfatal-errors -pedantic -Wshadow -o mpags-cipher mpags-cipher.cpp
 $ ./mpags-cipher
 ```
 
