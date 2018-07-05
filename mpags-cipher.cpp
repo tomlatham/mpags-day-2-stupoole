@@ -113,6 +113,7 @@ int main(int argc, char* argv[])
     // Uppercase alphabetic characters
     if (std::isalpha(inputChar)) {
       inputText += std::toupper(inputChar);
+      continue;
     }
 
     // Transliterate digits to English words
