@@ -10,6 +10,10 @@ add_executable(mpags-cipher
         MPAGSCipher/transformChar.h
         MPAGSCipher/transformChar.cpp
         MPAGSCipher/processCommandLine.h
-        MPAGSCipher/processCommandLine.cpp)
+        MPAGSCipher/processCommandLine.cpp
+        MPAGSCipher/print.h
+        MPAGSCipher/print.cpp)
 
-target_compile_features(mpags-cipher PRIVATE cxx_auto_type cxx_range_for cxx_uniform_initialization)
+
+target_compile_features(mpags-cipher
+        PRIVATE cxx_auto_type cxx_range_for cxx_uniform_initialization)

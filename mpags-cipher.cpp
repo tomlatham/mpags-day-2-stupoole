@@ -2,10 +2,14 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 #include "processCommandLine.h"
 #include "transformChar.h"
+#include "print.h"
 // For std::isalpha and std::isupper
 #include <cctype>
+
+
 
 
 // Main function of the mpags-cipher program
@@ -54,32 +58,48 @@ int main(int argc, char* argv[])
   }
 
   // Initialise variables for processing input text
-  char inputChar {'x'};
+  char inputChar;
   std::string inputText;
 
   // Read in user input from stdin/file
   // Warn that input file option not yet implemented
   if (!inputFile.empty()) {
-    std::cout << "[warning] input from file ('"
-              << inputFile
-              << "') not implemented yet, using stdin\n";
+    std::ifstream in_file {inputFile};
+    if (in_file.good()){
+      while (in_file  >> inputChar) {
+        std::cout << inputChar;
+        inputText += transformChar(inputChar);
+      }
+      in_file.close();
+    }else{
+      in_file.close();
+      print("Could not open file " + inputFile);
+    }
   }
 
-  // Loop over each character from user input
-  // (until Return then CTRL-D (EOF) pressed)
+//   Loop over each character from user input
+//   (until Return then CTRL-D (EOF) pressed)
+  print("Input your text and press ctrl+d to finish");
   while(std::cin >> inputChar)
   {
     inputText += transformChar(inputChar);
+    print(inputText);
   }
 
   // Output the transliterated text
-  // Warn that output file option not yet implemented
   if (!outputFile.empty()) {
-    std::cout << "[warning] output to file ('"
-              << outputFile
-              << "') not implemented yet, using stdout\n";
+    std::ofstream out_file;
+    out_file.open(outputFile, std::ios::app);
+    print("about to write to file yeh?");
+    if (out_file.good()){
+      out_file << inputText;
+      print("yeah apparently");
+    } else {
+      out_file.close();
+      print("Failed to write to file " + outputFile);
+    }
   }
-
+  print(inputText);
   std::cout << inputText << std::endl;
 
   // No requirement to return from main, but we do so for clarity

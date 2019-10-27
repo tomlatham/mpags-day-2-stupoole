@@ -3,7 +3,6 @@
 // ! Transliterate char to string
 //
 
-#include <string>
 #include "transformChar.h"
 
 std::string transformChar (const char in_char) {
