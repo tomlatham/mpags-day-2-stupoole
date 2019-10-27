@@ -3,10 +3,10 @@
 #include <string>
 #include <vector>
 #include <fstream>
-#include "processCommandLine.h"
-#include "transformChar.h"
-#include "print.h"
-// For std::isalpha and std::isupper
+#include "MPAGSCipher/processCommandLine.h"
+#include "MPAGSCipher/transformChar.h"
+#include "MPAGSCipher/print.h"
+#include "MPAGSCipher/runCaeserCipher.h"
 #include <cctype>
 
 
@@ -76,7 +76,6 @@ int main(int argc, char* argv[])
     std::ifstream in_file {inputFile};
     if (in_file.good()){
       while (in_file  >> inputChar) {
-        std::cout << inputChar;
         inputText += transformChar(inputChar);
       }
       in_file.close();
@@ -86,9 +85,15 @@ int main(int argc, char* argv[])
     }
   }
 
+//  test the encryption. To be removed.
+  std::string encrypted = runCaeserCipher("teststring", key, true);
+  std::string decrypted = runCaeserCipher(encrypted, key, false);
+  print(encrypted);
+  print(decrypted);
+
 //   Loop over each character from user input
 //   (until Return then CTRL-D (EOF) pressed)
-  print("Input your text and press ctrl+d to finish");
+  print("\n Input your text and press ctrl+d to finish");
   while(std::cin >> inputChar)
   {
     inputText += transformChar(inputChar);
@@ -103,10 +108,8 @@ int main(int argc, char* argv[])
     } else {
       out_file.open(outputFile);
     }
-    print("about to write to file yeh?");
     if (out_file.good()){
       out_file << inputText;
-      print("yeah apparently");
     } else {
       out_file.close();
       print("Failed to write to file " + outputFile);
@@ -114,6 +117,7 @@ int main(int argc, char* argv[])
   }
   print(inputText);
   std::cout << inputText << std::endl;
+
 
   // No requirement to return from main, but we do so for clarity
   // and for consistency with other functions

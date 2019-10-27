@@ -11,13 +11,13 @@ std::string runCaeserCipher(const std::string& input_text, const size_t key, con
   {
     for (const char in_char : input_text)
     {
-      output_string += alphabet[alphabet.find(in_char)+key];
+      output_string += alphabet[(alphabet.find(in_char)+key)%26];
     }
   } else {
     for (const char in_char : input_text)
     {
-      output_string += alphabet[alphabet.find(in_char) - key];
+      output_string += alphabet[(alphabet.find(in_char) - key)%26];
     }
   }
-    return output_string;
+  return output_string;
 }
