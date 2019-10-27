@@ -18,18 +18,21 @@ int main(int argc, char* argv[])
   // Convert the command-line arguments into a more easily usable form
   const std::vector<std::string> cmdLineArgs {argv, argv+argc};
 
-  // Add a typedef that assigns another name for the given type for clarity
-
-
   // Options that might be set by the command-line arguments
   bool helpRequested {false};
   bool versionRequested {false};
+  bool decryptRequested {false};
+  bool appendRequested {false};
+  std::size_t key {5};
   std::string inputFile;
   std::string outputFile;
 
+
   // Process command line arguments - ignore zeroth element, as we know this to
   // be the program name and don't need to worry about it
-  processCommandLine(cmdLineArgs, helpRequested, versionRequested, inputFile, outputFile);
+  processCommandLine(cmdLineArgs, helpRequested, versionRequested,
+      decryptRequested, appendRequested, key, inputFile,
+      outputFile);
 
   // Handle help, if requested
   if (helpRequested) {
@@ -43,7 +46,13 @@ int main(int argc, char* argv[])
       << "  -i FILE          Read text to be processed from FILE\n"
       << "                   Stdin will be used if not supplied\n\n"
       << "  -o FILE          Write processed text to FILE\n"
-      << "                   Stdout will be used if not supplied\n\n";
+      << "                   Stdout will be used if not supplied\n\n"
+      << "  -d               Specify decryption\n "
+      << "                   Defaults to encryption\n\n"
+      << "  -k KEY           Integer key for Encryption/Decryption\n"
+      << "                   Default Key is 5 \n\n"
+      << "  -a               Append to output file if specified"
+      ;
     // Help requires no further action, so return from main
     // with 0 used to indicate success
     return 0;
@@ -89,7 +98,11 @@ int main(int argc, char* argv[])
   // Output the transliterated text
   if (!outputFile.empty()) {
     std::ofstream out_file;
-    out_file.open(outputFile, std::ios::app);
+    if (appendRequested) {
+      out_file.open(outputFile, std::ios::app);
+    } else {
+      out_file.open(outputFile);
+    }
     print("about to write to file yeh?");
     if (out_file.good()){
       out_file << inputText;

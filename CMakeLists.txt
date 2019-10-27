@@ -12,7 +12,9 @@ add_executable(mpags-cipher
         MPAGSCipher/processCommandLine.h
         MPAGSCipher/processCommandLine.cpp
         MPAGSCipher/print.h
-        MPAGSCipher/print.cpp)
+        MPAGSCipher/print.cpp
+        MPAGSCipher/runCaeserCipher.cpp
+        MPAGSCipher/runCaeserCipher.h)
 
 
 target_compile_features(mpags-cipher

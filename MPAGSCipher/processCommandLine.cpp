@@ -9,6 +9,9 @@
 bool processCommandLine(const std::vector<std::string>& args,
                         bool& helpRequested,
                         bool& versionRequested,
+                        bool& decryptRequested,
+                        bool& appendRequested,
+                        std::size_t& key,
                         std::string& inputFileName,
                         std::string& outputFileName)
 {
@@ -52,12 +55,22 @@ bool processCommandLine(const std::vector<std::string>& args,
         ++i;
       }
     }
-    else {
+    else if (args[i] == "-k")
+    {
+      if (i == nCmdLineArgs-1) {
+        std::cerr << "[error] -k requires a valid key argument" << std::endl;
+        return true;
+      }else{
+      key = std::stoi(args[i+1]);
+      ++i;}
+
+    }
+    else{
       // Have an unknown flag to output error message and return non-zero
       // exit status to indicate failure
       std::cerr << "[error] unknown argument '" << args[i] << "'\n";
       return false;
     }
   }
-  return false;
+  return true;
 }
