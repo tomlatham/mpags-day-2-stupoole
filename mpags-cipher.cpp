@@ -8,13 +8,15 @@
 
 std::string transformChar (const char in_char) {
   // Uppercase alphabetic characters
-  if (std::isalpha(in_char)) {
+  if (std::isalpha(in_char))
+  {
     std::string str;
     return str += std::toupper(in_char);
   }
 
   // Transliterate digitSs to English words
-  switch (in_char) {
+  switch (in_char)
+  {
   case '0':
     return "ZERO";
   case '1':
@@ -44,6 +46,61 @@ std::string transformChar (const char in_char) {
 
 }
 
+bool processCommandLine(const std::vector<std::string>& args,
+  bool& helpRequested,
+  bool& versionRequested,
+  std::string& inputFileName,
+  std::string& outputFileName)
+{
+  typedef std::vector<std::string>::size_type size_type;
+  const size_type nCmdLineArgs {args.size()};
+
+  for (size_type i {1}; i < nCmdLineArgs; ++i)
+  {
+
+    if (args[i] == "-h" || args[i] == "--help") {
+      helpRequested = true;
+    }
+    else if (args[i] == "--version") {
+      versionRequested = true;
+    }
+    else if (args[i] == "-i") {
+      // Handle input file option
+      // Next element is filename unless -i is the last argument
+      if (i == nCmdLineArgs-1) {
+        std::cerr << "[error] -i requires a filename argument" << std::endl;
+        // exit main with non-zero return to indicate failure
+        return true;
+      }
+      else {
+        // Got filename, so assign value and advance past it
+        inputFileName = args[i+1];
+        ++i;
+      }
+    }
+    else if (args[i] == "-o") {
+      // Handle output file option
+      // Next element is filename unless -o is the last argument
+      if (i == nCmdLineArgs-1) {
+        std::cerr << "[error] -o requires a filename argument" << std::endl;
+        // exit main with non-zero return to indicate failure
+        return true;
+      }
+      else {
+        // Got filename, so assign value and advance past it
+        outputFileName = args[i+1];
+        ++i;
+      }
+    }
+    else {
+      // Have an unknown flag to output error message and return non-zero
+      // exit status to indicate failure
+      std::cerr << "[error] unknown argument '" << args[i] << "'\n";
+      return false;
+    }
+  }
+}
+
 // Main function of the mpags-cipher program
 int main(int argc, char* argv[])
 {
@@ -51,8 +108,7 @@ int main(int argc, char* argv[])
   const std::vector<std::string> cmdLineArgs {argv, argv+argc};
 
   // Add a typedef that assigns another name for the given type for clarity
-  typedef std::vector<std::string>::size_type size_type;
-  const size_type nCmdLineArgs {cmdLineArgs.size()};
+
 
   // Options that might be set by the command-line arguments
   bool helpRequested {false};
@@ -62,49 +118,7 @@ int main(int argc, char* argv[])
 
   // Process command line arguments - ignore zeroth element, as we know this to
   // be the program name and don't need to worry about it
-  for (size_type i {1}; i < nCmdLineArgs; ++i) {
-
-    if (cmdLineArgs[i] == "-h" || cmdLineArgs[i] == "--help") {
-      helpRequested = true;
-    }
-    else if (cmdLineArgs[i] == "--version") {
-      versionRequested = true;
-    }
-    else if (cmdLineArgs[i] == "-i") {
-      // Handle input file option
-      // Next element is filename unless -i is the last argument
-      if (i == nCmdLineArgs-1) {
-	std::cerr << "[error] -i requires a filename argument" << std::endl;
-	// exit main with non-zero return to indicate failure
-	return 1;
-      }
-      else {
-	// Got filename, so assign value and advance past it
-	inputFile = cmdLineArgs[i+1];
-	++i;
-      }
-    }
-    else if (cmdLineArgs[i] == "-o") {
-      // Handle output file option
-      // Next element is filename unless -o is the last argument
-      if (i == nCmdLineArgs-1) {
-	std::cerr << "[error] -o requires a filename argument" << std::endl;
-	// exit main with non-zero return to indicate failure
-	return 1;
-      }
-      else {
-	// Got filename, so assign value and advance past it
-	outputFile = cmdLineArgs[i+1];
-	++i;
-      }
-    }
-    else {
-      // Have an unknown flag to output error message and return non-zero
-      // exit status to indicate failure
-      std::cerr << "[error] unknown argument '" << cmdLineArgs[i] << "'\n";
-      return 1;
-    }
-  }
+  processCommandLine(cmdLineArgs, helpRequested, versionRequested, inputFile, outputFile);
 
   // Handle help, if requested
   if (helpRequested) {
