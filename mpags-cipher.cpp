@@ -6,6 +6,44 @@
 // For std::isalpha and std::isupper
 #include <cctype>
 
+std::string transformChar (const char in_char) {
+  // Uppercase alphabetic characters
+  if (std::isalpha(in_char)) {
+    std::string str;
+    return str += std::toupper(in_char);
+  }
+
+  // Transliterate digitSs to English words
+  switch (in_char) {
+  case '0':
+    return "ZERO";
+  case '1':
+    return "ONE";
+  case '2':
+    return "TWO";
+  case '3':
+    return "THREE";
+  case '4':
+    return "FOUR";
+  case '5':
+    return "FIVE";
+  case '6':
+    return "SIX";
+  case '7':
+    return "SEVEN";
+  case '8':
+    return "EIGHT";
+  case '9':
+    return "NINE";
+  default:
+    return "";
+  }
+
+  // If the character isn't alphabetic or numeric, DONT add it.
+  // Our ciphers can only operate on alphabetic characters.
+
+}
+
 // Main function of the mpags-cipher program
 int main(int argc, char* argv[])
 {
@@ -19,8 +57,8 @@ int main(int argc, char* argv[])
   // Options that might be set by the command-line arguments
   bool helpRequested {false};
   bool versionRequested {false};
-  std::string inputFile {""};
-  std::string outputFile {""};
+  std::string inputFile;
+  std::string outputFile;
 
   // Process command line arguments - ignore zeroth element, as we know this to
   // be the program name and don't need to worry about it
@@ -96,7 +134,7 @@ int main(int argc, char* argv[])
 
   // Initialise variables for processing input text
   char inputChar {'x'};
-  std::string inputText {""};
+  std::string inputText;
 
   // Read in user input from stdin/file
   // Warn that input file option not yet implemented
@@ -110,48 +148,7 @@ int main(int argc, char* argv[])
   // (until Return then CTRL-D (EOF) pressed)
   while(std::cin >> inputChar)
   {
-    // Uppercase alphabetic characters
-    if (std::isalpha(inputChar)) {
-      inputText += std::toupper(inputChar);
-      continue;
-    }
-
-    // Transliterate digits to English words
-    switch (inputChar) {
-      case '0':
-	inputText += "ZERO";
-	break;
-      case '1':
-	inputText += "ONE";
-	break;
-      case '2':
-	inputText += "TWO";
-	break;
-      case '3':
-	inputText += "THREE";
-	break;
-      case '4':
-	inputText += "FOUR";
-	break;
-      case '5':
-	inputText += "FIVE";
-	break;
-      case '6':
-	inputText += "SIX";
-	break;
-      case '7':
-	inputText += "SEVEN";
-	break;
-      case '8':
-	inputText += "EIGHT";
-	break;
-      case '9':
-	inputText += "NINE";
-	break;
-    }
-
-    // If the character isn't alphabetic or numeric, DONT add it.
-    // Our ciphers can only operate on alphabetic characters.
+    inputText += transformChar(inputChar);
   }
 
   // Output the transliterated text
