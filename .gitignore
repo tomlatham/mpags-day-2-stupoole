@@ -37,3 +37,6 @@
 
 cmake-build-debug/**
 .idea/**
+
+test_input_file.txt
+text_output.txt
