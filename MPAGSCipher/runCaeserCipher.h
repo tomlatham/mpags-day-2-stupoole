@@ -5,5 +5,5 @@
 #ifndef MPAGS_DAY_2_STUPOOLE_RUNCAESERCIPHER_H
 #define MPAGS_DAY_2_STUPOOLE_RUNCAESERCIPHER_H
 #include <string>
-std::string runCaeserCipher(const std::string& input_text, const size_t key, const bool encrypt);
+std::string runCaeserCipher(const std::string& input_text, size_t key, bool decrypt);
 #endif // MPAGS_DAY_2_STUPOOLE_RUNCAESERCIPHER_H

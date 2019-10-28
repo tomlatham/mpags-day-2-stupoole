@@ -3,20 +3,20 @@
 //
 #include "runCaeserCipher.h"
 
-std::string runCaeserCipher(const std::string& input_text, const size_t key, const bool encrypt)
+std::string runCaeserCipher(const std::string& input_text, const size_t key, const bool decrypt)
 {
   std::string alphabet = "abcdefghijklmnopqrstuvwxyz";
   std::string output_string;
-  if (encrypt)
+  if (decrypt)
   {
     for (const char in_char : input_text)
     {
-      output_string += alphabet[(alphabet.find(in_char)+key)%26];
+      output_string += alphabet[(alphabet.find(in_char) - key)%26];
     }
   } else {
     for (const char in_char : input_text)
     {
-      output_string += alphabet[(alphabet.find(in_char) - key)%26];
+      output_string += alphabet[(alphabet.find(in_char) + key)%26];
     }
   }
   return output_string;

@@ -100,6 +100,8 @@ int main(int argc, char* argv[])
     print(inputText);
   }
 
+  std::string outputText = runCaeserCipher(inputText, key, decryptRequested);
+
   // Output the transliterated text
   if (!outputFile.empty()) {
     std::ofstream out_file;
@@ -109,14 +111,15 @@ int main(int argc, char* argv[])
       out_file.open(outputFile);
     }
     if (out_file.good()){
-      out_file << inputText;
+      out_file << outputText;
     } else {
       out_file.close();
       print("Failed to write to file " + outputFile);
     }
   }
   print(inputText);
-  std::cout << inputText << std::endl;
+  std::cout << outputText << std::endl;
+
 
 
   // No requirement to return from main, but we do so for clarity

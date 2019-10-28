@@ -6,7 +6,7 @@
 #define MPAGS_DAY_2_STUPOOLE_TRANSFORMCHAR_H
 
 #include <string>
-std::string transformChar (const char in_char);
+std::string transformChar (char in_char);
 
 #endif // MPAGS_DAY_2_STUPOOLE_TRANSFORMCHAR_H
 
