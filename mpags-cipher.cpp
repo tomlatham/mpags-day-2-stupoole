@@ -85,11 +85,6 @@ int main(int argc, char* argv[])
     }
   }
 
-//  test the encryption. To be removed.
-  std::string encrypted = runCaeserCipher("teststring", key, true);
-  std::string decrypted = runCaeserCipher(encrypted, key, false);
-  print(encrypted);
-  print(decrypted);
 
 //   Loop over each character from user input
 //   (until Return then CTRL-D (EOF) pressed)
@@ -97,7 +92,6 @@ int main(int argc, char* argv[])
   while(std::cin >> inputChar)
   {
     inputText += transformChar(inputChar);
-    print(inputText);
   }
 
   std::string outputText = runCaeserCipher(inputText, key, decryptRequested);

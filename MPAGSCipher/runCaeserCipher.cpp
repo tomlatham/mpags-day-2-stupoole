@@ -5,7 +5,7 @@
 
 std::string runCaeserCipher(const std::string& input_text, const size_t key, const bool decrypt)
 {
-  std::string alphabet = "abcdefghijklmnopqrstuvwxyz";
+  std::string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   std::string output_string;
   if (decrypt)
   {
