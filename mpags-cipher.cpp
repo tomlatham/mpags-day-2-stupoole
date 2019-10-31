@@ -30,9 +30,13 @@ int main(int argc, char* argv[])
 
   // Process command line arguments - ignore zeroth element, as we know this to
   // be the program name and don't need to worry about it
-  processCommandLine(cmdLineArgs, helpRequested, versionRequested,
+  const bool processedOK { processCommandLine(cmdLineArgs, helpRequested, versionRequested,
       decryptRequested, appendRequested, key, inputFile,
-      outputFile);
+      outputFile) };
+  if ( ! processedOK ) {
+    std::cerr << "Problem processing command line arguments" << std::endl;
+    return 1;
+  }
 
   // Handle help, if requested
   if (helpRequested) {
@@ -52,7 +56,7 @@ int main(int argc, char* argv[])
       << "  -k KEY           Integer key for Encryption/Decryption\n"
       << "                   Default Key is 5 \n\n"
       << "  -a               Append to output file if specified"
-      ;
+      << std::endl;
     // Help requires no further action, so return from main
     // with 0 used to indicate success
     return 0;
@@ -62,7 +66,7 @@ int main(int argc, char* argv[])
   // Like help, requires no further action,
   // so return from main with zero to indicate success
   if (versionRequested) {
-    std::cout << "0.1.0" << std::endl;
+    std::cout << "0.2.0" << std::endl;
     return 0;
   }
 
@@ -83,18 +87,19 @@ int main(int argc, char* argv[])
       in_file.close();
       print("Could not open file " + inputFile);
     }
-  }
+  } else {
 
 
 //   Loop over each character from user input
 //   (until Return then CTRL-D (EOF) pressed)
-  print("\n Input your text and press ctrl+d to finish");
-  while(std::cin >> inputChar)
-  {
-    inputText += transformChar(inputChar);
+    print("\n Input your text and press ctrl+d to finish");
+    while(std::cin >> inputChar)
+    {
+      inputText += transformChar(inputChar);
+    }
   }
 
-  std::string outputText = runCaeserCipher(inputText, key, decryptRequested);
+  std::string outputText { runCaeserCipher(inputText, key, decryptRequested) };
 
   // Output the transliterated text
   if (!outputFile.empty()) {
@@ -110,9 +115,10 @@ int main(int argc, char* argv[])
       out_file.close();
       print("Failed to write to file " + outputFile);
     }
+  } else {
+    //print(inputText);
+    std::cout << outputText << std::endl;
   }
-  print(inputText);
-  std::cout << outputText << std::endl;
 
 
 
